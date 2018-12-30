@@ -36,7 +36,7 @@
             android:layout_height="match_parent"
             android:name="com.google.android.gms.maps.SupportMapFragment" />
 
-        <ImageButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/my_location_imageview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -32,14 +32,14 @@
         android:orientation="horizontal"
         android:layout_centerInParent="true">
 
-        <ImageButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/previous_image_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_skip_previous_black_24dp"
             android:background="@drawable/circular_border_bg" />
 
-        <ImageButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/current_image_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -47,7 +47,7 @@
             android:src="@drawable/ic_play_arrow_black_24dp"
             android:background="@drawable/circular_border_bg" />
 
-        <ImageButton
+        <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/next_image_button"
             android:layout_width="30dp"
             android:layout_height="30dp"

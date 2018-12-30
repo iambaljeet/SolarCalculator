@@ -13,11 +13,11 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.app.solarcalculator.R;
@@ -59,49 +59,49 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private final int AUTOCOMPLETE_REQUEST_CODE = 101;
     @BindView(R.id.pin_image_button)
-    ImageButton pinImageButton;
+    AppCompatImageButton pinImageButton;
     @BindView(R.id.saved_pin_image_button)
-    ImageButton savedPinImageButton;
+    AppCompatImageButton savedPinImageButton;
     @BindView(R.id.choose_location_text_view)
     AppCompatTextView chooseLocationTextView;
     @BindView(R.id.sun_image_view)
-    ImageView sunImageView;
+    AppCompatImageView sunAppCompatImageView;
     @BindView(R.id.up_image_view)
-    ImageView upImageView;
+    AppCompatImageView upImageView;
     @BindView(R.id.up_time_text_view)
     AppCompatTextView upTimeTextView;
     @BindView(R.id.down_time_layout)
     LinearLayout downTimeLayout;
     @BindView(R.id.down_image_view)
-    ImageView downImageView;
+    AppCompatImageView downImageView;
     @BindView(R.id.down_time_text_view)
     AppCompatTextView downTimeTextView;
     @BindView(R.id.moon_image_view)
-    ImageView moonImageView;
+    AppCompatImageView moonImageView;
     @BindView(R.id.moon_up_image_view)
-    ImageView moonUpImageView;
+    AppCompatImageView moonUpImageView;
     @BindView(R.id.moon_up_time_text_view)
     AppCompatTextView moonUpTimeTextView;
     @BindView(R.id.moon_down_time_layout)
     LinearLayout moonDownTimeLayout;
     @BindView(R.id.moon_down_image_view)
-    ImageView moonDownImageView;
+    AppCompatImageView moonDownImageView;
     @BindView(R.id.moon_down_time_text_view)
     AppCompatTextView moonDownTimeTextView;
     @BindView(R.id.previous_image_button)
-    ImageButton previousImageButton;
+    AppCompatImageButton previousImageButton;
     @BindView(R.id.current_image_button)
-    ImageButton currentImageButton;
+    AppCompatImageButton currentImageButton;
     @BindView(R.id.next_image_button)
-    ImageButton nextImageButton;
+    AppCompatImageButton nextImageButton;
     @BindView(R.id.bottom_bar_layout)
     LinearLayout bottomBarLayout;
     @BindView(R.id.my_location_imageview)
-    ImageButton myLocationImageView;
+    AppCompatImageButton myLocationImageView;
     @BindView(R.id.date_text_view)
     AppCompatTextView dateTextView;
     @BindView(R.id.close_image_button)
-    ImageButton closeImageButton;
+    AppCompatImageButton closeAppCompatImageButton;
     LifecycleOwner lifecycleOwner;
     LocationCallback locationCallback;
     private String TAG = MainActivity.class.getSimpleName();

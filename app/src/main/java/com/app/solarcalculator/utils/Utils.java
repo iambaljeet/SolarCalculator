@@ -9,12 +9,14 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,11 +24,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.app.solarcalculator.R;
+import com.app.solarcalculator.activity.MainActivity;
 import com.app.solarcalculator.adapter.PinsAdapter;
 import com.app.solarcalculator.callback.AlertLocationSelectedCallback;
 import com.app.solarcalculator.callback.LocationSettingsCallback;
 import com.app.solarcalculator.models.Pins;
 import com.app.solarcalculator.service.GoldenHourReceiver;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -141,6 +146,7 @@ public class Utils {
         final AlertDialog alertDialog = dialogBuilder.create();
 
         AppCompatButton button_close = dialogView.findViewById(R.id.button_close);
+        AppCompatTextView no_location_text_view = dialogView.findViewById(R.id.no_location_text_view);
         RecyclerView all_pins_recycler_view = dialogView.findViewById(R.id.all_pins_recycler_view);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -152,7 +158,14 @@ public class Utils {
         pinsArrayList.observe(lifecycleOwner, new Observer<List<Pins>>() {
             @Override
             public void onChanged(@Nullable List<Pins> pins) {
-                pinsAdapter.newDataInsserted(pins);
+                if (pins != null && pins.size() > 0) {
+                    all_pins_recycler_view.setVisibility(View.VISIBLE);
+                    no_location_text_view.setVisibility(View.GONE);
+                    pinsAdapter.newDataInsserted(pins);
+                } else {
+                    all_pins_recycler_view.setVisibility(View.GONE);
+                    no_location_text_view.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -166,7 +179,7 @@ public class Utils {
     }
 
     public static boolean checkGpsStatus(Activity activity) {
-        LocationManager manager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager manager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE );
         return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
