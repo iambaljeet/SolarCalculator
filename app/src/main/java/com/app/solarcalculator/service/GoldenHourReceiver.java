@@ -6,14 +6,11 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
 import com.app.solarcalculator.R;
-import com.app.solarcalculator.activity.MapsActivity;
+import com.app.solarcalculator.activity.MainActivity;
 
 import java.util.Random;
 
@@ -25,7 +22,7 @@ public class GoldenHourReceiver extends BroadcastReceiver {
     }
 
     private void sendNotification(Context context) {
-        Intent intent = new Intent(context, MapsActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

@@ -1,9 +1,10 @@
 package com.app.solarcalculator.utils;
 
+import android.app.Activity;
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.app.solarcalculator.callback.AsyncResult;
 import com.app.solarcalculator.database.PinsDao;
@@ -22,8 +23,8 @@ public class PinsRepo implements AsyncResult {
         allPinsList = new MutableLiveData<>();
     }
 
-    public void insertPin(Pins pins) {
-        new InsertAsyncTask(pinsDao).execute(pins);
+    public void insertPin(Pins pins, Activity activity) {
+        new InsertAsyncTask(pinsDao, activity).execute(pins);
     }
 
     public MutableLiveData<List<Pins>> getAllPins() {
@@ -39,18 +40,34 @@ public class PinsRepo implements AsyncResult {
         allPinsList.setValue(pinsList);
     }
 
-    private static class InsertAsyncTask extends AsyncTask<Pins, Void, Void> {
+    private static class InsertAsyncTask extends AsyncTask<Pins, Void, Long> {
 
         private PinsDao mAsyncTaskDao;
+        private Activity mActivity;
 
-        InsertAsyncTask(PinsDao dao) {
+        InsertAsyncTask(PinsDao dao,
+                        Activity activity) {
             mAsyncTaskDao = dao;
+            mActivity = activity;
         }
 
         @Override
-        protected Void doInBackground(final Pins... params) {
-            mAsyncTaskDao.insertPin(params[0]);
-            return null;
+        protected Long doInBackground(final Pins... params) {
+            return mAsyncTaskDao.insertPin(params[0])[0];
+        }
+
+        @Override
+        protected void onPostExecute(Long l) {
+            super.onPostExecute(l);
+            if (mActivity != null) {
+                if (l > 0) {
+                    Utils.showShortToast(mActivity, "Location saved successfully.");
+                } else {
+                    Utils.showShortToast(mActivity, "Location not saved, Please try again.");
+                }
+            }
+            Log.d("PinsRepo", "Inserted Value: " + l);
+            mActivity = null;
         }
     }
 

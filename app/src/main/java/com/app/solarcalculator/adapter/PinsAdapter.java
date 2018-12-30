@@ -2,12 +2,8 @@ package com.app.solarcalculator.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,7 +16,6 @@ import com.app.solarcalculator.callback.AlertLocationSelectedCallback;
 import com.app.solarcalculator.models.Pins;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PinsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

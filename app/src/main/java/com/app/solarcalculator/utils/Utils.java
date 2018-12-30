@@ -3,8 +3,6 @@ package com.app.solarcalculator.utils;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
@@ -12,47 +10,51 @@ import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.RingtoneManager;
-import android.net.Uri;
+import android.location.LocationManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import com.app.solarcalculator.R;
-import com.app.solarcalculator.activity.MapsActivity;
 import com.app.solarcalculator.adapter.PinsAdapter;
 import com.app.solarcalculator.callback.AlertLocationSelectedCallback;
+import com.app.solarcalculator.callback.LocationSettingsCallback;
 import com.app.solarcalculator.models.Pins;
 import com.app.solarcalculator.service.GoldenHourReceiver;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import static android.content.Context.ALARM_SERVICE;
 
 public class Utils {
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    public static final int REQUEST_CHECK_SETTINGS = 2525;
 
     public static Marker addOrMoveMarker(GoogleMap googleMap,
-                                       LatLng latLng, Marker marker) {
+                                         LatLng latLng, Marker marker) {
         if (marker == null) {
             marker = googleMap.addMarker(new MarkerOptions().position(latLng));
         } else {
@@ -60,21 +62,6 @@ public class Utils {
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
         return marker;
-    }
-
-    public static boolean checkPlayServices(Activity activity) {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(activity);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(activity, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else
-                activity.finish();
-
-            return false;
-        }
-        return true;
     }
 
     public static boolean hasPermission(Activity activity, String[] permissions) {
@@ -176,5 +163,42 @@ public class Utils {
         }
 
         alertDialog.show();
+    }
+
+    public static boolean checkGpsStatus(Activity activity) {
+        LocationManager manager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    public static void requestGpsSettings(LocationRequest locationRequest, Activity activity,
+                                          LocationSettingsCallback locationSettingsCallback) {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+
+        SettingsClient client = LocationServices.getSettingsClient(activity);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+
+        builder.setAlwaysShow(true);
+
+        task.addOnSuccessListener(activity, new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                locationSettingsCallback.gpsTurnedOn();
+            }
+        });
+
+        task.addOnFailureListener(activity, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+                    ResolvableApiException resolvable = (ResolvableApiException) e;
+                    locationSettingsCallback.gpsTurnedOff(resolvable);
+                }
+            }
+        });
+    }
+
+    public static boolean isRuntimePermissionRequired() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 }

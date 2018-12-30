@@ -27,3 +27,6 @@
 -keep class butterknife.*
 -keepclasseswithmembernames class * { @butterknife.* <methods>; }
 -keepclasseswithmembernames class * { @butterknife.* <fields>; }
+
+#Room
+-dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource

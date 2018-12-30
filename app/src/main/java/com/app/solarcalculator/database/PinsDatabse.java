@@ -11,8 +11,6 @@ import com.app.solarcalculator.models.Pins;
 public abstract class PinsDatabse extends RoomDatabase {
     static volatile PinsDatabse db;
 
-    public abstract PinsDao pinsDao();
-
     public static PinsDatabse getDatabase(Context context) {
         if (db == null) {
             synchronized (PinsDatabse.class) {
@@ -24,4 +22,6 @@ public abstract class PinsDatabse extends RoomDatabase {
         }
         return db;
     }
+
+    public abstract PinsDao pinsDao();
 }

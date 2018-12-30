@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MapsActivity">
+    tools:context=".activity.MainActivity">
 
     <include android:id="@+id/top_toolbar"
         layout="@layout/search_toolbar_layout" />
@@ -19,7 +19,7 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/choose_location_text_view"
         android:layout_below="@+id/divider_view"
-        android:text="Choose Location"
+        android:text="Search Location"
         android:gravity="center"
         android:padding="5dp"
         android:layout_width="match_parent"
