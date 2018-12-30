@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/time_layout_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/sun_timing_bottom_layout" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/date_text_view"
+        android:layout_below="@+id/time_layout_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        android:lines="1"
+        android:maxLines="1"
+        android:ellipsize="end" />
+
+    <LinearLayout
+        android:id="@+id/bottom_bar_layout"
+        android:layout_below="@+id/date_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true">
+
+        <ImageButton
+            android:id="@+id/previous_image_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_skip_previous_black_24dp"
+            android:background="@drawable/circular_border_bg" />
+
+        <ImageButton
+            android:id="@+id/current_image_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/margin_10"
+            android:src="@drawable/ic_play_arrow_black_24dp"
+            android:background="@drawable/circular_border_bg" />
+
+        <ImageButton
+            android:id="@+id/next_image_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/margin_10"
+            android:src="@drawable/ic_skip_next_black_24dp"
+            android:background="@drawable/circular_border_bg" />
+
+    </LinearLayout>
+
+</RelativeLayout>
